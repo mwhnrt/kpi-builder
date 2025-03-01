@@ -3,19 +3,53 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-alt: #ffffff;
+  --background: #f9f9fb;
+  --foreground: #322893;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary: #10b981;
+  --secondary-hover: #059669;
+  --gray-dark: #4a5568;
+  --gray-medium: #718096;
+  --gray-light: #e2e8f0;
+  --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --operator-add: #3b82f6;
+  --operator-subtract: #ef4444;
+  --operator-multiply: #f59e0b;
+  --operator-divide: #10b981;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #1f2937;
+  --background-alt: #2d3748;
+  --foreground: #f3f4f6;
+  --primary: #60a5fa;
+  --primary-hover: #3b82f6;
+  --secondary: #34d399;
+  --secondary-hover: #10b981;
+  --gray-dark: #374151;
+  --gray-medium: #6b7280;
+  --gray-light: #9ca3af;
+  --operator-add: #60a5fa;
+  --operator-subtract: #f87171;
+  --operator-multiply: #fbbf24;
+  --operator-divide: #34d399;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Custom styles for the delete button */
+.delete-button {
+  display: none;
+}
+
+.formula-section
+  .hover-target:not(:has(.hover-target:hover)):hover
+  > .delete-button {
+  display: block;
 }
