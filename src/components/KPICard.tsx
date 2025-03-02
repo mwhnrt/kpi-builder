@@ -1,3 +1,4 @@
+import { KPI } from '@/types/kpi';
 import { generateFormulaPreview } from '@/utils/formulaDisplay';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
@@ -7,7 +8,7 @@ interface KPICardProps {
   onDelete: (id: string) => void;
 }
 
-export const KPICard: FC<KPICardProps> = ({ kpi, onDelete }) => (
+export const KPICard: React.FC<KPICardProps> = ({ kpi, onDelete }) => (
   <div
     key={kpi.id}
     className="flex flex-col justify-between overflow-hidden rounded-lg border border-slate-200 bg-white shadow-md transition-all duration-200 hover:shadow-lg dark:border-slate-700 dark:bg-slate-800"

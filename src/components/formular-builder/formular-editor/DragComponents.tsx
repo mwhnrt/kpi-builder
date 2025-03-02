@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import { FormulaItemType } from '../../../types/formula';
 import {
   DragItem,
@@ -25,14 +25,18 @@ export const DraggableItem: FC<DraggableItemProps> = ({
   isTopmostOperator = false,
   onItemDelete = () => {},
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
   const { dragRef, dragProps } = useDraggableItem(item, {
     isNew,
     parentId,
     isTopmostOperator,
   });
+  
+  // Connect the drag ref to our element
+  dragRef(ref);
 
   return (
-    <div ref={dragRef} {...dragProps}>
+    <div ref={ref} {...dragProps}>
       {children}
       <div className="delete-button">
         <div className="pointer-events-auto absolute -right-2 -top-2 transition-opacity group-hover/constant:opacity-100">
@@ -78,14 +82,18 @@ export const DropTarget: FC<DropTargetProps> = ({
   className = '',
   id,
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
   const { dropRef, dropProps } = useDropTarget(onDrop, {
     id,
     canDrop,
   });
+  
+  // Connect the drop ref to our element
+  dropRef(ref);
 
   return (
     <div
-      ref={dropRef}
+      ref={ref}
       className={`${className} ${dropProps.className}`}
       data-drop-id={id}
     >

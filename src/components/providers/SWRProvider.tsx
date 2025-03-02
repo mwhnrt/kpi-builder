@@ -2,6 +2,7 @@
 
 import { SWRConfig } from 'swr';
 import { ReactNode } from 'react';
+import { FetchError } from '@/types/utils';
 
 // Global fetcher implementation for SWR
 const fetcher = async (url: string) => {
@@ -9,7 +10,7 @@ const fetcher = async (url: string) => {
 
   // If the request failed, throw an error
   if (!res.ok) {
-    const error = new Error('An error occurred while fetching the data.');
+    const error = new Error('An error occurred while fetching the data.') as FetchError;
     const info = await res.json().catch(() => ({}));
     error.info = info;
     throw error;

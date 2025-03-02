@@ -26,8 +26,9 @@ export function KPIForm({ initialData, onSubmit }: KPIFormProps) {
       initialData?.aggregationType || ('average' as AggregationType),
   });
 
+  // Fix: Add a type assertion to ensure the formula has the correct type
   const [formula, setFormula] = useState<FormulaItemType | null>(
-    initialData?.formula || null
+    initialData?.formula ? (initialData.formula as unknown as FormulaItemType) : null
   );
   const [isValidFormula, setIsValidFormula] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});

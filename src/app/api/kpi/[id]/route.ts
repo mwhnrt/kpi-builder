@@ -5,11 +5,12 @@ import { z } from 'zod';
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const id = (await params).id
     const kpi = await prisma.kPI.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!kpi) {
@@ -25,15 +26,16 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const id = (await params).id
     const json = await request.json();
     const body = KPISchema.parse(json);
 
     // Check if KPI exists before updating
     const existingKPI = await prisma.kPI.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingKPI) {
@@ -41,7 +43,7 @@ export async function PUT(
     }
 
     const kpi = await prisma.kPI.update({
-      where: { id: params.id },
+      where: { id },
       data: body,
     });
 
@@ -57,7 +59,7 @@ export async function PUT(
     }
 
     // Handle Prisma errors
-    if (error.code === 'P2025') {
+    if (typeof error === 'object' && error !== null && 'code' in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'KPI not found' }, { status: 404 });
     }
 
@@ -70,12 +72,13 @@ export async function PUT(
 
 export async function DELETE(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const id = (await params).id;
     // Check if KPI exists before deleting
     const existingKPI = await prisma.kPI.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingKPI) {
@@ -83,7 +86,7 @@ export async function DELETE(
     }
 
     await prisma.kPI.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ success: true });
@@ -91,7 +94,7 @@ export async function DELETE(
     console.error('Error deleting KPI:', error);
 
     // Handle Prisma errors
-    if (error.code === 'P2025') {
+    if (error && typeof error === "object" && "code" in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'KPI not found' }, { status: 404 });
     }
 

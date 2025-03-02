@@ -8,7 +8,7 @@ export interface Variable {
 }
 
 export interface FormulaNode {
-  type: OperatorType | 'variable' | 'number';
+  type: OperatorType | 'variable' | 'constant';
   value?: string | number; // variable id or number value
   params?: FormulaNode[];
 }

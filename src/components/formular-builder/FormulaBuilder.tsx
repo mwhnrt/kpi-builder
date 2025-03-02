@@ -55,7 +55,6 @@ export function FormulaBuilder() {
     handleItemDroppedIntoOperator,
     handleFormulaUpdate,
     handleFormulaRemove,
-    handleDeleteItem,
   } = useFormula();
 
   const handleRootDrop = (item: DragItem) => {
@@ -161,7 +160,6 @@ export function FormulaBuilder() {
                 onRemove={handleFormulaRemove}
                 rootFormula={formula}
                 onItemMoved={handleItemDroppedIntoOperator}
-                onItemDelete={handleDeleteItem}
               />
             </div>
           )}

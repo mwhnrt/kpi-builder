@@ -4,11 +4,12 @@ import { KPI } from '@/types/kpi';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import useSWR from 'swr';
+import { FetchError } from '@/types/utils';
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
   if (!res.ok) {
-    const error = new Error('Failed to fetch KPI');
+    const error = new Error('Failed to fetch KPI') as FetchError;
     error.info = await res.json();
     throw error;
   }
@@ -24,7 +25,7 @@ export default function EditKPIPage() {
     data: kpi,
     error,
     isLoading,
-  } = useSWR<KPI>(id ? `/api/kpi/${id}` : null, fetcher, {
+  } = useSWR<KPI, FetchError>(id ? `/api/kpi/${id}` : null, fetcher, {
     onSuccess: (data) => {
       // Parse the conditioning string back to an object if it's stored as a string
       if (typeof data.conditioning === 'string') {
